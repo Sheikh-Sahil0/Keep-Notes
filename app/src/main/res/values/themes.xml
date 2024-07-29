@@ -1,0 +1,13 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.KeepNotes" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/rama_green</item>
+        <item name="colorPrimaryVariant">@color/rama_green</item>
+        <item name="colorPrimaryDark">@color/rama_green</item>
+        <item name="colorAccent">@color/rama_green</item>
+        <item name="android:statusBarColor">@color/rama_green</item>
+    </style>
+
+    <style name="Theme.KeepNotes" parent="Base.Theme.KeepNotes" />
+</resources>
