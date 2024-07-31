@@ -2,12 +2,15 @@ package com.example.keepnotes
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.keepnotes.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+
+// We implemented the OnItemClickListener interface of our NotesAdapter class
+class MainActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
 
     // Declaring the binding feature.
     private lateinit var binding:ActivityMainBinding
@@ -27,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         db = NotesDatabaseHelper(this)
 
         // Setting the notes adapter
-        notesAdapter = NotesAdapter(db.getAllNotes(), this)
+        notesAdapter = NotesAdapter(db.getAllNotes(), this,this)
 
         // Setting the layout manager of recycler view
         binding.notesRecyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -47,5 +50,29 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         notesAdapter.refreshData(db.getAllNotes()) // keep refreshing the data
+    }
+
+    // Implementing the onNoteClick method from the OnItemClickListener interface
+    override fun onNoteClick(note: Note) {
+        // Handle single note click
+    }
+
+    // Implementing the onNoteLongClick method from the OnItemClickListener interface
+    override fun onNoteLongClick(selectedNotes: List<Note>) {
+        if (selectedNotes.isNotEmpty()) {
+            // Making pin button visible and search button invisible when notes are selected
+            if (selectedNotes.size == 1) {
+                // Make the pin button visible if there's only one selected note
+                binding.btnPin.visibility = View.VISIBLE
+            } else {
+                // Hide the pin button if multiple notes are selected
+                binding.btnPin.visibility = View.GONE
+            }
+            binding.btnSearch.visibility = View.GONE // Added line
+        } else {
+            // Reverting visibility of buttons when no notes are selected
+            binding.btnPin.visibility = View.GONE // Added line
+            binding.btnSearch.visibility = View.VISIBLE // Added line
+        }
     }
 }
