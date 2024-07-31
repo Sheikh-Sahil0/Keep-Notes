@@ -8,9 +8,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.keepnotes.databinding.ActivityMainBinding
 
-
-// We implemented the OnItemClickListener interface of our NotesAdapter class
-class MainActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
+class MainActivity : AppCompatActivity(),NotesAdapter.OnItemClickListener {
 
     // Declaring the binding feature.
     private lateinit var binding:ActivityMainBinding
@@ -60,7 +58,7 @@ class MainActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
     // Implementing the onNoteLongClick method from the OnItemClickListener interface
     override fun onNoteLongClick(selectedNotes: List<Note>) {
         if (selectedNotes.isNotEmpty()) {
-            // Making pin button visible and search button invisible when notes are selected
+            // Check if there is exactly one note selected
             if (selectedNotes.size == 1) {
                 // Make the pin button visible if there's only one selected note
                 binding.btnPin.visibility = View.VISIBLE
@@ -68,11 +66,13 @@ class MainActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
                 // Hide the pin button if multiple notes are selected
                 binding.btnPin.visibility = View.GONE
             }
-            binding.btnSearch.visibility = View.GONE // Added line
+            // Make the search button invisible when notes are selected
+            binding.btnSearch.visibility = View.GONE
         } else {
             // Reverting visibility of buttons when no notes are selected
-            binding.btnPin.visibility = View.GONE // Added line
-            binding.btnSearch.visibility = View.VISIBLE // Added line
+            binding.btnPin.visibility = View.GONE
+            binding.btnSearch.visibility = View.VISIBLE
         }
     }
+
 }
