@@ -8,7 +8,8 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.keepnotes.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity(),NotesAdapter.OnItemClickListener {
+// We implemented the OnItemClickListener interface of our NotesAdapter class
+class MainActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
 
     // Declaring the binding feature.
     private lateinit var binding:ActivityMainBinding
@@ -57,6 +58,7 @@ class MainActivity : AppCompatActivity(),NotesAdapter.OnItemClickListener {
 
     // Implementing the onNoteLongClick method from the OnItemClickListener interface
     override fun onNoteLongClick(selectedNotes: List<Note>) {
+        // Making pin button visible and search button invisible when notes are
         if (selectedNotes.isNotEmpty()) {
             // Check if there is exactly one note selected
             if (selectedNotes.size == 1) {
