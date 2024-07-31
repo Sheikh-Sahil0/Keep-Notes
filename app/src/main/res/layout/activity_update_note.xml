@@ -9,18 +9,43 @@
     android:background="@color/white"
     tools:context=".UpdateNoteActivity">
 
+    <ImageButton
+        android:id="@+id/btn_close_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_close"
+        android:contentDescription="Image button to pin the note"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="19dp"
+        android:layout_marginStart="16dp"/>
+
     <TextView
         android:id="@+id/txt_edit_add_note_heading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
         android:fontFamily="@font/belgrano"
         android:text="Edit Note."
         android:textColor="@color/rama_green"
         android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_close_edit"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btn_pin_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_pin"
+        android:contentDescription="Image button to pin the note"
+        android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_margin="16dp" />
+        app:layout_constraintEnd_toStartOf="@id/img_update_done_btn"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"/>
+
 
     <ImageView
         android:id="@+id/img_update_done_btn"

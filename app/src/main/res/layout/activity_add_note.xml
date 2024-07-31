@@ -9,6 +9,18 @@
     android:background="@color/white"
     tools:context=".AddNoteActivity">
 
+    <ImageButton
+        android:id="@+id/btn_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_close"
+        android:contentDescription="Image button to pin the note"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="19dp"
+        android:layout_marginStart="16dp"/>
+
     <TextView
         android:id="@+id/txt_add_note_heading"
         android:layout_width="wrap_content"
@@ -18,9 +30,21 @@
         android:text="Add Note."
         android:textColor="@color/rama_green"
         android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_close"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_margin="16dp" />
+
+    <ImageButton
+        android:id="@+id/btn_pin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_pin"
+        android:contentDescription="Image button to pin the note"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/img_done_btn"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"/>
 
     <ImageView
         android:id="@+id/img_done_btn"
