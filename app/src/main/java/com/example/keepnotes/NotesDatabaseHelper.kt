@@ -50,10 +50,12 @@ class NotesDatabaseHelper(context : Context) : SQLiteOpenHelper(context, DATABAS
     // We will come after completing the work of Recycler View and Item layout
 
     // Created this class and extends by List of our Note class
+    // Fetch all notes from the database, ordered by pinned status and timestamp
     fun getAllNotes() : List<Note> {
         val notesList = mutableListOf<Note>() // a variable which is assigned as mutable List of our Note class to hold notes
         val db = readableDatabase
-        val query = "SELECT * FROM $TABLE_NAME" // created a query to select entire table
+        // Fetch notes ordered by pinned status (desc) and then by timestamp (desc)
+        val query = "SELECT * FROM $TABLE_NAME ORDER BY $COLUMN_PINNED DESC, $COLUMN_ID DESC" // Change to add sorting
         val cursor = db.rawQuery(query,null) // to execute the above query we use rawQuery method and it stores in cursor variable
         // The cursor is used to iterate the rows through the table
 
@@ -61,7 +63,7 @@ class NotesDatabaseHelper(context : Context) : SQLiteOpenHelper(context, DATABAS
             val id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID)) // getting the id of current row
             val title = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE)) // getting the title of current row
             val content = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CONTENT)) // getting the content of current row
-            val isPinned = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_PINNED)) // getting the content of current row
+            val isPinned = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_PINNED)) // getting the pinned status of current row
 
             val note = Note(id, title, content, isPinned) // pass this all data to the Note class and storing it into the note val
             notesList.add(note) // we will add this note into notesList

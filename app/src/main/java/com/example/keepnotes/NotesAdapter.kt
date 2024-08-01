@@ -46,7 +46,7 @@ class NotesAdapter (private var notes : List<Note>,private val context: Context,
         holder.titleTextView.text = note.title
         holder.contextTextView.text = note.content
 
-        // Check if the note is selected
+        // Check if the note is selected (to fix the bug of auto-selecting note)
         if (selectedNotes.contains(note)) {
             holder.noteCardLinearLayout.setBackgroundColor(Color.LTGRAY) // Selected color
         } else {
