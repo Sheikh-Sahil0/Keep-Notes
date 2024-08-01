@@ -36,7 +36,7 @@ class UpdateNoteActivity : AppCompatActivity() {
         binding.imgUpdateDoneBtn.setOnClickListener{
             val newTitle = binding.edtUpdateEditTitle.text.toString()
             val newContent = binding.edtUpdateContent.text.toString()
-            val updatedNote = Note(noteId, newTitle, newContent)
+            val updatedNote = Note(noteId, newTitle, newContent, 0)
             db.updateNote(updatedNote)
             finish()
             Toast.makeText(this, "Changes Saved", Toast.LENGTH_SHORT).show()

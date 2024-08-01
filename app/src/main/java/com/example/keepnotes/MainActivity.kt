@@ -43,6 +43,10 @@ class MainActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
             startActivity(addNoteActivityIntent)
             // After that we will create the data class named Note
         }
+
+        binding.btnPin.setOnClickListener {
+            pinSelectedNote()
+        }
     }
 
     // Overriding the resume methode, it will help to refresh our data whenever app resumes
@@ -62,6 +66,8 @@ class MainActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
         if (selectedNotes.isNotEmpty()) {
             // Check if there is exactly one note selected
             if (selectedNotes.size == 1) {
+                // This if is used to toggle the icon of the pin button
+                updatePinButtonIcon()
                 // Make the pin button visible if there's only one selected note
                 binding.btnPin.visibility = View.VISIBLE
             } else {
@@ -74,6 +80,35 @@ class MainActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
             // Reverting visibility of buttons when no notes are selected
             binding.btnPin.visibility = View.GONE
             binding.btnSearch.visibility = View.VISIBLE
+        }
+    }
+
+    private fun pinSelectedNote() {
+        val selectedNotes = notesAdapter.getSelectedNotes()
+        if (selectedNotes.isNotEmpty()) {
+            val noteToPin = selectedNotes[0] // Get the first selected note
+            // Toggle the pinned status
+            noteToPin.isPinned = if (noteToPin.isPinned == 1) 0 else 1 // Change pinned status
+
+            // Update the note in the database
+            db.updateNote(noteToPin)
+
+            // Update the pin button icon based on the new state
+            updatePinButtonIcon()
+
+            // Refresh the notes list
+            notesAdapter.refreshData(db.getAllNotes())
+        }
+    }
+
+
+    private fun updatePinButtonIcon() {
+        val selectedNotes = notesAdapter.getSelectedNotes()
+        val noteToPin = selectedNotes[0]
+        if (noteToPin.isPinned == 1) {
+            binding.btnPin.setImageResource(R.drawable.ic_unpin) // Unpinned icon
+        } else {
+            binding.btnPin.setImageResource(R.drawable.ic_pin) // Pinned icon
         }
     }
 

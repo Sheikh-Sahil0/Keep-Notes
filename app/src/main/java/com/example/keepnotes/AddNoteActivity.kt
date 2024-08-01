@@ -21,7 +21,7 @@ class AddNoteActivity : AppCompatActivity() {
         binding.imgDoneBtn.setOnClickListener{
             val title = binding.edtEditTitle.text.toString()
             val content = binding.edtContent.text.toString()
-            val note = Note(0, title,content)
+            val note = Note(0, title,content,0)
             db.insertNote(note)
             finish()
             Toast.makeText(this, "Note saved.",Toast.LENGTH_SHORT).show()

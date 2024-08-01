@@ -18,7 +18,6 @@ import com.example.keepnotes.databinding.ActivityMainBinding
 class NotesAdapter (private var notes : List<Note>,private val context: Context,private val listener : OnItemClickListener) : RecyclerView.Adapter<NotesAdapter.NoteViewHolder> (){
 
     private val db : NotesDatabaseHelper = NotesDatabaseHelper(context)
-    private lateinit var binding: ActivityMainBinding
     private val selectedNotes = mutableListOf<Note>() // mutable list of notes to add the selected note on it.
 
     class NoteViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView){
@@ -46,6 +45,13 @@ class NotesAdapter (private var notes : List<Note>,private val context: Context,
         val note = notes[position] // current note
         holder.titleTextView.text = note.title
         holder.contextTextView.text = note.content
+
+        // Check if the note is selected
+        if (selectedNotes.contains(note)) {
+            holder.noteCardLinearLayout.setBackgroundColor(Color.LTGRAY) // Selected color
+        } else {
+            holder.noteCardLinearLayout.setBackgroundResource(R.drawable.green_border) // Default color
+        }
 
         // Setting on click listener to the editButton
         holder.editButton.setOnClickListener{
@@ -114,10 +120,17 @@ class NotesAdapter (private var notes : List<Note>,private val context: Context,
             selectedNotes.add(note)
             holder.noteCardLinearLayout.setBackgroundColor(Color.LTGRAY)// set the background color to show this is selected.
         }
+        // Notify adapter about the change in the selected state
+        notifyItemChanged(holder.adapterPosition)
     }
 
     interface OnItemClickListener {
         fun onNoteClick(note: Note)
         fun onNoteLongClick(selectedNotes: List<Note>)
+    }
+
+    // user get the selected notes list in mainActivity and other
+    fun getSelectedNotes(): List<Note> {
+        return selectedNotes
     }
 }
