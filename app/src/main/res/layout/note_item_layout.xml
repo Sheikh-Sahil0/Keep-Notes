@@ -9,31 +9,39 @@
     android:background="@color/white"
     app:cardUseCompatPadding="true">
 
-    <LinearLayout
-        android:id="@+id/note_card_linear_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/green_border"
-        android:padding="16dp">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <RelativeLayout
+        <ImageView
+            android:id="@+id/img_pin_notifier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_pin_notifier"
+            android:layout_marginTop="7dp"
+            android:layout_marginLeft="8dp"
+            android:visibility="visible"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/note_card_constraint_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp">
+            android:background="@drawable/green_border"
+            android:padding="16dp">
 
             <TextView
                 android:id="@+id/txt_item_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Title"
                 android:textColor="@color/dark_orange"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:fontFamily="@font/belgrano"
-                android:layout_alignParentStart="true"
-                android:layout_toStartOf="@id/img_edit_btn"
-                android:layout_alignBaseline="@id/img_edit_btn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/img_edit_btn"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/img_edit_btn"
                 android:layout_marginEnd="8dp"/>
 
             <ImageView
@@ -41,29 +49,33 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_edit"
-                android:layout_alignParentEnd="true"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <ImageView
                 android:id="@+id/img_delete_btn"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_delete"
-                android:layout_below="@id/img_edit_btn"
-                android:layout_alignParentEnd="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/img_edit_btn"
+                app:layout_constraintStart_toStartOf="@+id/img_edit_btn"
                 android:layout_marginTop="5dp"/>
 
-        </RelativeLayout>
+            <TextView
+                android:id="@+id/txt_item_content"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Content"
+                android:fontFamily="@font/belgrano"
+                app:layout_constraintTop_toBottomOf="@id/img_delete_btn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="4dp"
+                android:maxLines="4"/>
 
-        <TextView
-            android:id="@+id/txt_item_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Content"
-            android:fontFamily="@font/belgrano"
-            android:layout_marginTop="4dp"
-            android:maxLines="4"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
- 

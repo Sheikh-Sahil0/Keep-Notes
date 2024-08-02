@@ -8,12 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.example.keepnotes.databinding.ActivityMainBinding
 
 class NotesAdapter (private var notes : List<Note>,private val context: Context,private val listener : OnItemClickListener) : RecyclerView.Adapter<NotesAdapter.NoteViewHolder> (){
 
@@ -30,8 +28,10 @@ class NotesAdapter (private var notes : List<Note>,private val context: Context,
         val deleteButton : ImageView = itemView.findViewById(R.id.img_delete_btn)
         // then we will go to onBind
 
-        // we will initialize the LinearLayout of item note card views to set the background on it.
-        val noteCardLinearLayout : LinearLayout = itemView.findViewById(R.id.note_card_linear_layout)
+        // we will initialize the ConstraintLayout of item note card views to set the background on it.
+        val noteCardConstraintLayout : ConstraintLayout = itemView.findViewById(R.id.note_card_constraint_layout)
+        // Declaring the pin notifier image view
+        val pinNotifier : ImageView = itemView.findViewById(R.id.img_pin_notifier)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
@@ -48,10 +48,13 @@ class NotesAdapter (private var notes : List<Note>,private val context: Context,
 
         // Check if the note is selected (to fix the bug of auto-selecting note)
         if (selectedNotes.contains(note)) {
-            holder.noteCardLinearLayout.setBackgroundColor(Color.LTGRAY) // Selected color
+            holder.noteCardConstraintLayout.setBackgroundColor(Color.LTGRAY) // Selected color
         } else {
-            holder.noteCardLinearLayout.setBackgroundResource(R.drawable.green_border) // Default color
+            holder.noteCardConstraintLayout.setBackgroundResource(R.drawable.green_border) // Default color
         }
+
+        // Show pin notifier if the note is pinned
+        holder.pinNotifier.visibility = if (note.isPinned == 1) View.VISIBLE else View.GONE
 
         // Setting on click listener to the editButton
         holder.editButton.setOnClickListener{
@@ -115,10 +118,10 @@ class NotesAdapter (private var notes : List<Note>,private val context: Context,
     private fun toggleSelection(note: Note, holder: NoteViewHolder) {
         if (selectedNotes.contains(note)) { // If the current note is contain inside the selectedNotes val
             selectedNotes.remove(note) // If it already exist inside the list of selectedNotes it remove it from the list
-            holder.noteCardLinearLayout.setBackgroundResource(R.drawable.green_border) // and set the background
+            holder.noteCardConstraintLayout.setBackgroundResource(R.drawable.green_border) // and set the background
         } else { // other wise it will simply add the currently selected noted into the selectedNotes list
             selectedNotes.add(note)
-            holder.noteCardLinearLayout.setBackgroundColor(Color.LTGRAY)// set the background color to show this is selected.
+            holder.noteCardConstraintLayout.setBackgroundColor(Color.LTGRAY)// set the background color to show this is selected.
         }
         // Notify adapter about the change in the selected state
         notifyItemChanged(holder.adapterPosition)
