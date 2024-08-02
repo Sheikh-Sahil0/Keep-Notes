@@ -54,7 +54,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="6dp"
         android:contentDescription="Save the note"
-        android:src="@drawable/baseline_done_24"
+        android:src="@drawable/ic_done"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="16dp" />

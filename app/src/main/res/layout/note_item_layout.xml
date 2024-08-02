@@ -40,14 +40,14 @@
                 android:id="@+id/img_edit_btn"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/edit_icon"
+                android:src="@drawable/ic_edit"
                 android:layout_alignParentEnd="true"/>
 
             <ImageView
                 android:id="@+id/img_delete_btn"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/delete_icon"
+                android:src="@drawable/ic_delete"
                 android:layout_below="@id/img_edit_btn"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="5dp"/>

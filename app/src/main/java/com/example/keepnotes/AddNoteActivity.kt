@@ -17,6 +17,11 @@ class AddNoteActivity : AppCompatActivity() {
         // Initialize the db
         db = NotesDatabaseHelper(this)
 
+        // Closing the activity when user clicks on close button
+        binding.btnClose.setOnClickListener {
+            finish()
+        }
+
         // Storing the data by on clicking the done button
         binding.imgDoneBtn.setOnClickListener{
             val title = binding.edtEditTitle.text.toString()

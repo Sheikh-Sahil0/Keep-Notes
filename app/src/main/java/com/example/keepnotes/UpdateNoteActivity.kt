@@ -29,6 +29,10 @@ class UpdateNoteActivity : AppCompatActivity() {
             return
         }
 
+        binding.btnCloseEdit.setOnClickListener {
+            finish()
+        }
+
         val note = db.getNoteByID(noteId)
         binding.edtUpdateEditTitle.setText(note.title)
         binding.edtUpdateContent.setText(note.content)

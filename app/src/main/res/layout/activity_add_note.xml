@@ -18,7 +18,7 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="19dp"
+        android:layout_marginTop="20dp"
         android:layout_marginStart="16dp"/>
 
     <TextView
@@ -43,7 +43,7 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="@id/img_done_btn"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="6dp"
         android:layout_marginEnd="16dp"/>
 
     <ImageView
@@ -53,7 +53,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="6dp"
         android:contentDescription="Save the note"
-        android:src="@drawable/baseline_done_24"
+        android:src="@drawable/ic_done"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="16dp" />
