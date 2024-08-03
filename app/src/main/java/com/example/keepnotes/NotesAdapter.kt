@@ -13,7 +13,7 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 
-class NotesAdapter (private var notes : List<Note>,private val context: Context,private val listener : OnItemClickListener) : RecyclerView.Adapter<NotesAdapter.NoteViewHolder> (){
+class NotesAdapter (private var notes : List<Note>, private val context: Context, private val listener : OnItemClickListener) : RecyclerView.Adapter<NotesAdapter.NoteViewHolder> (){
 
     private val db : NotesDatabaseHelper = NotesDatabaseHelper(context)
     private val selectedNotes = mutableListOf<Note>() // mutable list of notes to add the selected note on it.
@@ -24,8 +24,6 @@ class NotesAdapter (private var notes : List<Note>,private val context: Context,
         // After designing the update activity
         // we will initialize the image view of our note item layouts editButton
         val editButton : ImageView = itemView.findViewById(R.id.img_edit_btn)
-        // After declaring the db we will initialize the delete btn
-        val deleteButton : ImageView = itemView.findViewById(R.id.img_delete_btn)
         // then we will go to onBind
 
         // we will initialize the ConstraintLayout of item note card views to set the background on it.
@@ -64,23 +62,6 @@ class NotesAdapter (private var notes : List<Note>,private val context: Context,
             holder.itemView.context.startActivity(updateActivityIntent)
         }
         // After that we will go to NotesDatabaseHelper class to create the updateNote function
-        // We are here to set the delete button
-        holder.deleteButton.setOnClickListener {
-            // Show confirmation dialog
-            val builder = AlertDialog.Builder(holder.itemView.context)
-            builder.setMessage("Are you sure you want to delete this note?")
-                .setCancelable(false)
-                .setPositiveButton("Yes") { dialog, id ->
-                    db.deleteNote(note.id)
-                    refreshData(db.getAllNotes())
-                    Toast.makeText(holder.itemView.context, "Note Deleted", Toast.LENGTH_SHORT).show()
-                }
-                .setNegativeButton("No") { dialog, id ->
-                    dialog.dismiss()
-                }
-            val alert = builder.create()
-            alert.show()
-        }
 
         // If user long-press on the particular note.
         holder.itemView.setOnLongClickListener {

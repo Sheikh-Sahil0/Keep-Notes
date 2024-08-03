@@ -1,8 +1,10 @@
 package com.example.keepnotes
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -44,8 +46,14 @@ class MainActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
             // After that we will create the data class named Note
         }
 
+        // Setting the setOnClickListener on it.
         binding.btnPin.setOnClickListener {
             pinSelectedNote()
+        }
+
+        // Setting the setOnClickListener on it.
+        binding.btnDelete.setOnClickListener {
+            deleteSelectedNotes()
         }
     }
 
@@ -66,7 +74,7 @@ class MainActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
         if (selectedNotes.isNotEmpty()) {
             // Check if there is exactly one note selected
             if (selectedNotes.size == 1) {
-                // This if is used to toggle the icon of the pin button
+                // This is used to toggle the icon of the pin button
                 updatePinButtonIcon()
                 // Make the pin button visible if there's only one selected note
                 binding.btnPin.visibility = View.VISIBLE
@@ -76,9 +84,12 @@ class MainActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
             }
             // Make the search button invisible when notes are selected
             binding.btnSearch.visibility = View.GONE
+            // Make the delete button visible when notes are selected
+            binding.btnDelete.visibility = View.VISIBLE
         } else {
             // Reverting visibility of buttons when no notes are selected
             binding.btnPin.visibility = View.GONE
+            binding.btnDelete.visibility = View.GONE
             binding.btnSearch.visibility = View.VISIBLE
         }
     }
@@ -101,7 +112,7 @@ class MainActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
         }
     }
 
-
+    // Toggle the icon of the pin button(pin to unpin and wise versa)
     private fun updatePinButtonIcon() {
         val selectedNotes = notesAdapter.getSelectedNotes()
         val noteToPin = selectedNotes[0]
@@ -109,6 +120,56 @@ class MainActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
             binding.btnPin.setImageResource(R.drawable.ic_unpin) // Unpinned icon
         } else {
             binding.btnPin.setImageResource(R.drawable.ic_pin) // Pinned icon
+        }
+    }
+
+    // Delete the selected notes when the delete button is clicked
+    private fun deleteSelectedNotes() {
+        val selectedNotes = notesAdapter.getSelectedNotes()
+        if (selectedNotes.isNotEmpty()) {
+            if (selectedNotes.size == 1) {
+                // Show confirmation dialog for a single note
+                val builder = AlertDialog.Builder(this)
+                builder.setMessage("Are you sure you want to delete this note?")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes") { dialog, id ->
+                        db.deleteNote(selectedNotes[0].id)
+                        // Refresh the notes list after deletion
+                        notesAdapter.refreshData(db.getAllNotes())
+                        // Update the UI to reflect the changes
+                        binding.btnDelete.visibility = View.GONE
+                        binding.btnPin.visibility = View.GONE
+                        binding.btnSearch.visibility = View.VISIBLE
+                        Toast.makeText(this, "Note Deleted", Toast.LENGTH_SHORT).show()
+                    }
+                    .setNegativeButton("No") { dialog, id ->
+                        dialog.dismiss()
+                    }
+                val alert = builder.create()
+                alert.show()
+            } else {
+                // Show confirmation dialog for multiple notes
+                val builder = AlertDialog.Builder(this)
+                builder.setMessage("Are you sure you want to delete these notes?")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes") { dialog, id ->
+                        for (note in selectedNotes) {
+                            db.deleteNote(note.id)
+                        }
+                        // Refresh the notes list after deletion
+                        notesAdapter.refreshData(db.getAllNotes())
+                        // Update the UI to reflect the changes
+                        binding.btnDelete.visibility = View.GONE
+                        binding.btnPin.visibility = View.GONE
+                        binding.btnSearch.visibility = View.VISIBLE
+                        Toast.makeText(this, "Notes Are Deleted", Toast.LENGTH_SHORT).show()
+                    }
+                    .setNegativeButton("No") { dialog, id ->
+                        dialog.dismiss()
+                    }
+                val alert = builder.create()
+                alert.show()
+            }
         }
     }
 
