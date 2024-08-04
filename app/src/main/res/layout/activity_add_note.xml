@@ -81,7 +81,7 @@
         android:layout_height="0dp"
         android:hint="Enter the description"
         android:textColorHint="@color/dark_grey"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:fontFamily="@font/belgrano"
         android:layout_marginTop="12dp"
         android:padding="12dp"

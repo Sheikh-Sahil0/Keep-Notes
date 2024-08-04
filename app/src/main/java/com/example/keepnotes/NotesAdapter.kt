@@ -1,6 +1,5 @@
 package com.example.keepnotes
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -9,14 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 
 class NotesAdapter (private var notes : List<Note>, private val context: Context, private val listener : OnItemClickListener) : RecyclerView.Adapter<NotesAdapter.NoteViewHolder> (){
 
-    private val db : NotesDatabaseHelper = NotesDatabaseHelper(context)
-    private val selectedNotes = mutableListOf<Note>() // mutable list of notes to add the selected note on it.
+    // mutable list of notes to add the selected note on it.
+    private val selectedNotes = mutableListOf<Note>()
 
     class NoteViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView){
         val titleTextView : TextView = itemView.findViewById(R.id.txt_item_title)
@@ -41,8 +39,27 @@ class NotesAdapter (private var notes : List<Note>, private val context: Context
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         val note = notes[position] // current note
-        holder.titleTextView.text = note.title
+
+        // it will contain all the word of the title in a list
+        val titleWords = note.title.split(" ") // .split(" ") will split the line on the basis of space
+        // then we will check it titleWords contains more a word then we will show just first word the title.
+        holder.titleTextView.text = if (titleWords.size > 3) {
+            titleWords[0] + " " + titleWords[1] + " " + titleWords[2] + "...."
+        } else note.title
+
         holder.contextTextView.text = note.content
+
+        // Checking if the content has more than more line of content then we will show its half
+        holder.contextTextView.post {
+            if (holder.contextTextView.lineCount >= 10) {
+                // If the line count is more than 4 then we will show the half content
+                val halfContent = note.content.substring(0, note.content.length / 2) + "...."
+                holder.contextTextView.text = halfContent
+            } else {
+                // otherwise we will show the original content.
+                holder.contextTextView.text = note.content
+            }
+        }
 
         // Check if the note is selected (to fix the bug of auto-selecting note)
         if (selectedNotes.contains(note)) {

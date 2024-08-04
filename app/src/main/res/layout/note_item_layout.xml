@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:text="Title"
                 android:textColor="@color/dark_orange"
-                android:textSize="18sp"
+                android:textSize="17sp"
                 android:textStyle="bold"
                 android:fontFamily="@font/belgrano"
                 app:layout_constraintStart_toStartOf="parent"
@@ -58,12 +58,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Content"
+                android:textSize="12sp"
                 android:fontFamily="@font/belgrano"
                 app:layout_constraintTop_toBottomOf="@id/txt_item_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="4dp"
-                android:maxLines="4"/>
+                android:maxLines="10"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
