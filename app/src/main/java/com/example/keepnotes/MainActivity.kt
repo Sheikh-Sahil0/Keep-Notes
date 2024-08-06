@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.keepnotes.databinding.ActivityMainBinding
 
@@ -55,6 +56,21 @@ class MainActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
         binding.btnDelete.setOnClickListener {
             deleteSelectedNotes()
         }
+
+        // Setting the setOnClickListener on it.
+        binding.btnSearch.setOnClickListener {
+
+            if (binding.searchView.visibility == View.GONE) {
+                binding.searchView.visibility = View.VISIBLE
+                binding.txtNotesHeading.visibility = View.INVISIBLE
+                setupSearchView()
+            } else {
+                binding.searchView.visibility = View.GONE
+                binding.txtNotesHeading.visibility = View.VISIBLE
+            }
+
+        }
+
     }
 
     // Overriding the resume methode, it will help to refresh our data whenever app resumes
@@ -171,6 +187,28 @@ class MainActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
                 alert.show()
             }
         }
+    }
+
+    // Setting the search view after clicking on the search button
+    private fun setupSearchView() {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let { searchNotes(it) }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                newText?.let { searchNotes(it) }
+                return true
+            }
+        })
+    }
+
+    private fun searchNotes(query: String) {
+        val filteredNotes = db.getAllNotes().filter {
+            it.title.contains(query, ignoreCase = true)
+        }
+        notesAdapter.refreshData(filteredNotes)
     }
 
 }
