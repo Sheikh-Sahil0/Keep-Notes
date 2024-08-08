@@ -6,6 +6,8 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -60,6 +62,8 @@ class NotesAdapter (private var notes : List<Note>, private val context: Context
                 holder.contextTextView.text = note.content
             }
         }
+
+        onNoteCreateAnimation(holder)
 
         // Check if the note is selected (to fix the bug of auto-selecting note)
         if (selectedNotes.contains(note)) {
@@ -133,5 +137,11 @@ class NotesAdapter (private var notes : List<Note>, private val context: Context
     // user get the selected notes list in mainActivity and other
     fun getSelectedNotes(): List<Note> {
         return selectedNotes
+    }
+
+    // Setting the animation when the note is created.
+    private fun onNoteCreateAnimation(viewHolder : NoteViewHolder) {
+        val slideIn = AnimationUtils.loadAnimation(context, R.anim.on_note_create_animation)
+        viewHolder.itemView.startAnimation(slideIn)
     }
 }
