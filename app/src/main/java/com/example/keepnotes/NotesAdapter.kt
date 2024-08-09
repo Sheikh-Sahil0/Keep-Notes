@@ -12,6 +12,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class NotesAdapter (private var notes : List<Note>, private val context: Context, private val listener : OnItemClickListener) : RecyclerView.Adapter<NotesAdapter.NoteViewHolder> (){
 
@@ -30,6 +33,8 @@ class NotesAdapter (private var notes : List<Note>, private val context: Context
         val noteCardConstraintLayout : ConstraintLayout = itemView.findViewById(R.id.note_card_constraint_layout)
         // Declaring the pin notifier image view
         val pinNotifier : ImageView = itemView.findViewById(R.id.img_pin_notifier)
+        // Declaring the note date text view
+        val noteDateTextView : TextView = itemView.findViewById(R.id.txt_note_date)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
@@ -63,6 +68,7 @@ class NotesAdapter (private var notes : List<Note>, private val context: Context
             }
         }
 
+        // Whenever note appears on the screen this animation will be applied on the note
         onNoteCreateAnimation(holder)
 
         // Check if the note is selected (to fix the bug of auto-selecting note)
@@ -74,6 +80,12 @@ class NotesAdapter (private var notes : List<Note>, private val context: Context
 
         // Show pin notifier if the note is pinned
         holder.pinNotifier.visibility = if (note.isPinned == 1) View.VISIBLE else View.GONE
+
+        // Adding the date on the note
+        // Convert the timestamp into a readable date format
+        val formattedDate = SimpleDateFormat("dd MMM yyy, hh:mm a", Locale.getDefault()).format(Date(note.noteDate.toLong()))
+        // Set this on our view
+        holder.noteDateTextView.text = formattedDate
 
         // Setting on click listener to the editButton
         holder.editButton.setOnClickListener{

@@ -10,27 +10,32 @@ class NotesDatabaseHelper(context : Context) : SQLiteOpenHelper(context, DATABAS
 
     companion object {
         private const val DATABASE_NAME = "keepnotes.db"
-        private const val DATABASE_VERSION = 2 // Incremented database version
+        private const val DATABASE_VERSION = 3 // Incremented database version
         private const val TABLE_NAME = "allnotes"
         private const val COLUMN_ID = "id"
         private const val COLUMN_TITLE = "title"
         private const val COLUMN_CONTENT = "content"
         private const val COLUMN_PINNED = "isPinned" // Column for pinned status
+        private const val COLUMN_NOTE_DATE = "noteDate" // Column for storing the date of the note (created or updated)
     }
 
     // Called when the database is created for the first time.
     override fun onCreate(db: SQLiteDatabase?) {
         // Create the all notes table
-        val createTableQuery = "CREATE TABLE $TABLE_NAME ($COLUMN_ID INTEGER PRIMARY KEY, $COLUMN_TITLE TEXT, $COLUMN_CONTENT TEXT, $COLUMN_PINNED INTEGER DEFAULT 0)"
+        val createTableQuery = "CREATE TABLE $TABLE_NAME ($COLUMN_ID INTEGER PRIMARY KEY, $COLUMN_TITLE TEXT, $COLUMN_CONTENT TEXT, $COLUMN_PINNED INTEGER DEFAULT 0, $COLUMN_NOTE_DATE TEXT)"
         db?.execSQL(createTableQuery)
     }
 
     // Called when the database needs to be upgraded.
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        // Adding a new column while preserving existing data
-        if (oldVersion < 2) {
-            // Adding the new column to the existing table
+        if (oldVersion == 1) {
+            // Add the COLUMN_PINNED column if upgrading from a version is 1
             db?.execSQL("ALTER TABLE $TABLE_NAME ADD COLUMN $COLUMN_PINNED INTEGER DEFAULT 0")
+            db?.execSQL("ALTER TABLE $TABLE_NAME ADD COLUMN $COLUMN_NOTE_DATE TEXT")
+        }
+        if (oldVersion == 2) {
+            // Add the COLUMN_NOTE_DATE column if upgrading from a version is 2
+            db?.execSQL("ALTER TABLE $TABLE_NAME ADD COLUMN $COLUMN_NOTE_DATE TEXT")
         }
     }
 
@@ -41,6 +46,7 @@ class NotesDatabaseHelper(context : Context) : SQLiteOpenHelper(context, DATABAS
             put(COLUMN_TITLE, note.title)
             put(COLUMN_CONTENT, note.content)
             put(COLUMN_PINNED, note.isPinned)
+            put(COLUMN_NOTE_DATE,note.noteDate) // Storing current date
         }
         db.insert(TABLE_NAME, null, values) // Inserting the values into the database.
         db.close() // closing the connection
@@ -52,7 +58,7 @@ class NotesDatabaseHelper(context : Context) : SQLiteOpenHelper(context, DATABAS
     // Created this class and extends by List of our Note class
     // Fetch all notes from the database, ordered by pinned status and timestamp
     fun getAllNotes() : List<Note> {
-        val notesList = mutableListOf<Note>() // a variable which is assigned as mutable List of our Note class to hold notes
+        val notesList = mutableListOf<Note>() // a variable which is assigned as mutable List of our Note class to hold notes data
         val db = readableDatabase
         // Fetch notes ordered by pinned status (desc) and then by timestamp (desc)
         val query = "SELECT * FROM $TABLE_NAME ORDER BY $COLUMN_PINNED DESC, $COLUMN_ID DESC" // Change to add sorting
@@ -64,8 +70,9 @@ class NotesDatabaseHelper(context : Context) : SQLiteOpenHelper(context, DATABAS
             val title = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE)) // getting the title of current row
             val content = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CONTENT)) // getting the content of current row
             val isPinned = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_PINNED)) // getting the pinned status of current row
+            val noteDate = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NOTE_DATE)) // getting the date of current row
 
-            val note = Note(id, title, content, isPinned) // pass this all data to the Note class and storing it into the note val
+            val note = Note(id, title, content, isPinned, noteDate) // pass this all data to the Note class and storing it into the note val
             notesList.add(note) // we will add this note into notesList
         }
 
@@ -82,6 +89,7 @@ class NotesDatabaseHelper(context : Context) : SQLiteOpenHelper(context, DATABAS
             put(COLUMN_TITLE, note.title)
             put(COLUMN_CONTENT, note.content)
             put(COLUMN_PINNED, note.isPinned)
+            put(COLUMN_NOTE_DATE, note.noteDate) // Update the current on the note
         }
 
         val whereClause = "$COLUMN_ID = ?" // this will used to update the row by its column id
@@ -101,10 +109,11 @@ class NotesDatabaseHelper(context : Context) : SQLiteOpenHelper(context, DATABAS
         val title = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE))
         val content = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CONTENT))
         val isPinned = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_PINNED))
+        val noteDate = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NOTE_DATE))
 
         cursor.close()
         db.close()
-        return Note(id, title, content, isPinned)
+        return Note(id, title, content, isPinned, noteDate)
     }
 
     // After that we will create a function to delete the node
