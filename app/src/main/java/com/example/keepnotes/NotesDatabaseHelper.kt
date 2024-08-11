@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.icu.text.CaseMap.Title
 
 // Helper class for managing the SQLite database for storing notes.
 class NotesDatabaseHelper(context : Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -124,4 +125,40 @@ class NotesDatabaseHelper(context : Context) : SQLiteOpenHelper(context, DATABAS
         db.delete(TABLE_NAME, whereClause, whereArgs)
         db.close()
     }
+
+    fun getAllNotesSortedByDate(order: String): List<Note> {
+        val notesList = mutableListOf<Note>()
+        val db = this.readableDatabase
+
+        // Order by pinned notes first, then by date
+        val orderBy = "$COLUMN_PINNED DESC, $COLUMN_NOTE_DATE $order"
+
+        val cursor = db.query(
+            TABLE_NAME,
+            null,
+            null,
+            null,
+            null,
+            null,
+            orderBy
+        )
+
+        if (cursor.moveToFirst()) {
+            do {
+                val id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID))
+                val title = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE))
+                val content = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CONTENT))
+                val isPinned = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_PINNED))
+                val noteDate = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NOTE_DATE))
+
+                val note = Note(id, title, content, isPinned, noteDate)
+                notesList.add(note)
+            } while (cursor.moveToNext())
+        }
+
+        cursor.close()
+        db.close()
+        return notesList
+    }
+
 }

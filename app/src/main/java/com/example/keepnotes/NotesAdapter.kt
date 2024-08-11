@@ -156,4 +156,5 @@ class NotesAdapter (private var notes : List<Note>, private val context: Context
         val slideIn = AnimationUtils.loadAnimation(context, R.anim.on_note_create_animation)
         viewHolder.itemView.startAnimation(slideIn)
     }
+
 }

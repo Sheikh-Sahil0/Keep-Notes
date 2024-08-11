@@ -7,7 +7,13 @@
         <item name="colorPrimaryDark">@color/rama_green</item>
         <item name="colorAccent">@color/rama_green</item>
         <item name="android:statusBarColor">@color/rama_green</item>
+
+        <item name="popupMenuStyle">@style/CustomPopupMenu</item>
     </style>
 
-    <style name="Theme.KeepNotes" parent="Base.Theme.KeepNotes" />
+    <style name="CustomPopupMenu" parent="Widget.AppCompat.PopupMenu.Overflow">
+        <item name="android:popupBackground">@color/dark_orange</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
 </resources>

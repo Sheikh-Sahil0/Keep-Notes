@@ -2,8 +2,18 @@ package com.example.keepnotes
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import android.view.ContextThemeWrapper
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
+import android.widget.PopupMenu
+import android.widget.PopupWindow
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -25,7 +35,7 @@ class MainActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         // Setting the binding feature to inflate the layout and view's
-        binding = ActivityMainBinding.inflate(layoutInflater);
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)// setting on setContentView
 
         // setting the database
@@ -71,6 +81,11 @@ class MainActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
 
         }
 
+        // Setting the on click listener on filter button
+        binding.imgFilterBtn.setOnClickListener {
+            showFilterMenu(it)
+        }
+
     }
 
     // Overriding the resume methode, it will help to refresh our data whenever app resumes
@@ -102,11 +117,14 @@ class MainActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
             binding.btnSearch.visibility = View.GONE
             // Make the delete button visible when notes are selected
             binding.btnDelete.visibility = View.VISIBLE
+            // Make the filter button invisible when notes are selected
+            binding.imgFilterBtn.visibility = View.GONE
         } else {
             // Reverting visibility of buttons when no notes are selected
             binding.btnPin.visibility = View.GONE
             binding.btnDelete.visibility = View.GONE
             binding.btnSearch.visibility = View.VISIBLE
+            binding.imgFilterBtn.visibility = View.VISIBLE
         }
     }
 
@@ -203,12 +221,39 @@ class MainActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
             }
         })
     }
-
     private fun searchNotes(query: String) {
         val filteredNotes = db.getAllNotes().filter {
             it.title.contains(query, ignoreCase = true)
         }
         notesAdapter.refreshData(filteredNotes)
+    }
+
+    private fun showFilterMenu(view: View) {
+        val popupLayout = layoutInflater.inflate(R.layout.popup_menu_layout, null)
+        val popupWindow = PopupWindow(popupLayout, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        popupWindow.isFocusable = true
+
+        popupWindow.showAsDropDown(view)
+
+        popupLayout.findViewById<TextView>(R.id.sort_asc).setOnClickListener {
+            val db = NotesDatabaseHelper(this)
+            val sortedNotes = db.getAllNotesSortedByDate("ASC")
+            notesAdapter.refreshData(sortedNotes)
+            popupWindow.dismiss()
+        }
+
+        popupLayout.findViewById<TextView>(R.id.sort_desc).setOnClickListener {
+            val db = NotesDatabaseHelper(this)
+            val sortedNotes = db.getAllNotesSortedByDate("DESC")
+            notesAdapter.refreshData(sortedNotes)
+            popupWindow.dismiss()
+        }
+
+        popupLayout.findViewById<TextView>(R.id.sort_default).setOnClickListener {
+            val db = NotesDatabaseHelper(this)
+            notesAdapter.refreshData(db.getAllNotes())
+            popupWindow.dismiss()
+        }
     }
 
 }
