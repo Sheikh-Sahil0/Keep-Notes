@@ -228,6 +228,7 @@ class MainActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
         notesAdapter.refreshData(filteredNotes)
     }
 
+    // Set the drop down and handle the filter behaviour
     private fun showFilterMenu(view: View) {
         val popupLayout = layoutInflater.inflate(R.layout.popup_menu_layout, null)
         val popupWindow = PopupWindow(popupLayout, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -254,6 +255,27 @@ class MainActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
             notesAdapter.refreshData(db.getAllNotes())
             popupWindow.dismiss()
         }
+    }
+
+    override fun onBackPressed() {
+        // Check if the SearchView is open
+        if (binding.searchView.visibility == View.VISIBLE) {
+            binding.searchView.visibility = View.GONE
+            binding.txtNotesHeading.visibility = View.VISIBLE
+            return
+        }
+
+        // Check if any notes are selected
+        if (notesAdapter.getSelectedNotes().isNotEmpty()) {
+            notesAdapter.clearSelection()  // Deselect the notes
+
+            binding.btnDelete.visibility = View.GONE
+            binding.btnPin.visibility = View.GONE
+
+            binding.btnSearch.visibility = View.VISIBLE
+            return
+        }
+        super.onBackPressed()
     }
 
 }

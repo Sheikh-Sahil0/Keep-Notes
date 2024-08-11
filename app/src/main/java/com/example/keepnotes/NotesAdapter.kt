@@ -150,6 +150,11 @@ class NotesAdapter (private var notes : List<Note>, private val context: Context
     fun getSelectedNotes(): List<Note> {
         return selectedNotes
     }
+    // Clears the selection of all selected notes
+    fun clearSelection() {
+        selectedNotes.clear()
+        notifyDataSetChanged()
+    }
 
     // Setting the animation when the note is created.
     private fun onNoteCreateAnimation(viewHolder : NoteViewHolder) {
