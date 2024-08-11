@@ -15,9 +15,11 @@ import android.widget.PopupMenu
 import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.keepnotes.databinding.ActivityMainBinding
 
@@ -86,6 +88,33 @@ class MainActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
             showFilterMenu(it)
         }
 
+        // Register the callback for handling back presses
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Check if the SearchView is open
+                if (binding.searchView.visibility == View.VISIBLE) {
+                    binding.searchView.visibility = View.GONE
+                    binding.txtNotesHeading.visibility = View.VISIBLE
+                    return
+                }
+
+                // Check if any notes are selected
+                if (notesAdapter.getSelectedNotes().isNotEmpty()) {
+                    notesAdapter.clearSelection()  // Deselect the notes
+
+                    binding.btnDelete.visibility = View.GONE
+                    binding.btnPin.visibility = View.GONE
+
+                    binding.btnSearch.visibility = View.VISIBLE
+                    return
+                }
+
+                // If no conditions met, allow the back press to proceed
+                isEnabled = false
+                onBackPressedDispatcher.onBackPressed()
+            }
+        })
+
     }
 
     // Overriding the resume methode, it will help to refresh our data whenever app resumes
@@ -119,12 +148,24 @@ class MainActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
             binding.btnDelete.visibility = View.VISIBLE
             // Make the filter button invisible when notes are selected
             binding.imgFilterBtn.visibility = View.GONE
+
+            // If search view is visible, constrain the search view to btn_pin
+            if (binding.searchView.visibility == View.VISIBLE) {
+                val params = binding.searchView.layoutParams as ConstraintLayout.LayoutParams
+                params.endToStart = binding.btnPin.id // Constrain to btnPin
+                binding.searchView.layoutParams = params
+            }
         } else {
             // Reverting visibility of buttons when no notes are selected
             binding.btnPin.visibility = View.GONE
             binding.btnDelete.visibility = View.GONE
             binding.btnSearch.visibility = View.VISIBLE
             binding.imgFilterBtn.visibility = View.VISIBLE
+
+            // This will constraint the search view to the search again after deselecting the note
+            val params = binding.searchView.layoutParams as ConstraintLayout.LayoutParams
+            params.endToStart = binding.btnSearch.id // Constrain to btnSearch
+            binding.searchView.layoutParams = params
         }
     }
 
@@ -255,27 +296,6 @@ class MainActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
             notesAdapter.refreshData(db.getAllNotes())
             popupWindow.dismiss()
         }
-    }
-
-    override fun onBackPressed() {
-        // Check if the SearchView is open
-        if (binding.searchView.visibility == View.VISIBLE) {
-            binding.searchView.visibility = View.GONE
-            binding.txtNotesHeading.visibility = View.VISIBLE
-            return
-        }
-
-        // Check if any notes are selected
-        if (notesAdapter.getSelectedNotes().isNotEmpty()) {
-            notesAdapter.clearSelection()  // Deselect the notes
-
-            binding.btnDelete.visibility = View.GONE
-            binding.btnPin.visibility = View.GONE
-
-            binding.btnSearch.visibility = View.VISIBLE
-            return
-        }
-        super.onBackPressed()
     }
 
 }
