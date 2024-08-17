@@ -213,6 +213,7 @@ class MainActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
                         binding.btnDelete.visibility = View.GONE
                         binding.btnPin.visibility = View.GONE
                         binding.btnSearch.visibility = View.VISIBLE
+                        binding.imgFilterBtn.visibility = View.VISIBLE
                         Toast.makeText(this, "Note Deleted", Toast.LENGTH_SHORT).show()
                     }
                     .setNegativeButton("No") { dialog, id ->
@@ -235,6 +236,7 @@ class MainActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
                         binding.btnDelete.visibility = View.GONE
                         binding.btnPin.visibility = View.GONE
                         binding.btnSearch.visibility = View.VISIBLE
+                        binding.imgFilterBtn.visibility = View.VISIBLE
                         Toast.makeText(this, "Notes Are Deleted", Toast.LENGTH_SHORT).show()
                     }
                     .setNegativeButton("No") { dialog, id ->
