@@ -2,16 +2,9 @@ package com.example.keepnotes
 
 import android.app.AlertDialog
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
-import android.view.ContextThemeWrapper
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
 import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
@@ -245,6 +238,7 @@ class MainActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
                 val alert = builder.create()
                 alert.show()
             }
+            notesAdapter.clearSelection()
         }
     }
 
