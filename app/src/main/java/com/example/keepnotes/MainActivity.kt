@@ -97,14 +97,12 @@ class MainActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
                     binding.txtNotesHeading.visibility = View.VISIBLE
                     return
                 }
-
                 // Check if any notes are selected
                 if (notesAdapter.getSelectedNotes().isNotEmpty()) {
                     notesAdapter.clearSelection()  // Deselect the notes
 
                     binding.btnDelete.visibility = View.GONE
                     binding.btnPin.visibility = View.GONE
-
                     binding.btnSearch.visibility = View.VISIBLE
                     return
                 }
@@ -262,6 +260,7 @@ class MainActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
             }
         })
     }
+    // This will actually search the note by changing or submit the text on the search view's text filed
     private fun searchNotes(query: String) {
         val filteredNotes = db.getAllNotes().filter {
             it.title.contains(query, ignoreCase = true)
