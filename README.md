@@ -33,28 +33,28 @@ NoteNinja is a sleek and intuitive Android note-taking app that helps you organi
 ### 🚀 Splash Screen
 A clean, simple entry point into the app with brand identity.
 
-![Splash Screen](assets/SplashScreen.jpg)
+![Splash Screen](assets/splashscreen.jpg)
 
 ---
 
 ### 🏠 Main Notes Screen
 A beautiful card-based layout showcasing all your notes, pinned ones appear first.
 
-![Main Screen](assets/MainScreen.jpg)
+![Main Screen](assets/mainscreen.jpg)
 
 ---
 
 ### ➕ Add New Note
 Create notes with title and content. Tap the pin icon to prioritize.
 
-![Add Note Screen](assets/AddNoteScreen.jpg)
+![Add Note Screen](assets/addnotescreen.jpg)
 
 ---
 
 ### ✏️ Edit Existing Note
 Modify any existing note with one tap.
 
-![Edit Note Screen](assets/EditNoteScreen.jpg)
+![Edit Note Screen](assets/editnotescreen.jpg)
 
 ---
 
