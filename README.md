@@ -58,5 +58,24 @@ Modify any existing note with one tap.
 
 ---
 
-## 📂 Folder Structure
+<h2>📥 Download APK</h2>
+
+<p>
+  <a href="https://drive.google.com/file/d/your-apk-id/view?usp=sharing" target="_blank">
+    <img src="https://img.shields.io/badge/Download-APK-brightgreen?style=for-the-badge&logo=android" alt="Download APK"/>
+  </a>
+</p>
+
+---
+
+## 📬 Contact
+
+Made with ❤️ by **Shaikh Sahil**
+
+- 📧 Email: [sheikhsahilss2429@gmail.com](mailto:sheikhsahilss2429@gmail.com)  
+- 💼 LinkedIn: [linkedin.com/in/shaikhsahil01](https://www.linkedin.com/in/shaikhsahil01)  
+- 🐙 GitHub: [github.com/Sheikh-Sahil0](https://github.com/Sheikh-Sahil0)
+
+Feel free to reach out for collaboration, feedback, or just to connect!
+
 
