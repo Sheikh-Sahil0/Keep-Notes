@@ -1,10 +1,9 @@
-package com.example.keepnotes
+package com.example.NoteNinja
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.icu.text.CaseMap.Title
 
 // Helper class for managing the SQLite database for storing notes.
 class NotesDatabaseHelper(context : Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {

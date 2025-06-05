@@ -1,8 +1,8 @@
-package com.example.keepnotes
+package com.example.NoteNinja
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.keepnotes.databinding.ActivityNoteDetailBinding
+import com.example.NoteNinja.databinding.ActivityNoteDetailBinding
 
 class NoteDetailActivity : AppCompatActivity() {
 

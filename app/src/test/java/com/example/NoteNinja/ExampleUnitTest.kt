@@ -1,4 +1,4 @@
-package com.example.keepnotes
+package com.example.NoteNinja
 
 import org.junit.Test
 

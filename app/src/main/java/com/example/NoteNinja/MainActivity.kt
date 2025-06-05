@@ -1,4 +1,4 @@
-package com.example.keepnotes
+package com.example.NoteNinja
 
 import android.app.AlertDialog
 import android.content.Intent
@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.keepnotes.databinding.ActivityMainBinding
+import com.example.NoteNinja.databinding.ActivityMainBinding
 
 // We implemented the OnItemClickListener interface of our NotesAdapter class
 class MainActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {

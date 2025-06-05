@@ -1,9 +1,9 @@
-package com.example.keepnotes
+package com.example.NoteNinja
 
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.keepnotes.databinding.ActivityUpdateNoteBinding
+import com.example.NoteNinja.databinding.ActivityUpdateNoteBinding
 
 class UpdateNoteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUpdateNoteBinding

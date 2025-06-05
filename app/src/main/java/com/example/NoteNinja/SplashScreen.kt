@@ -1,4 +1,4 @@
-package com.example.keepnotes
+package com.example.NoteNinja
 
 import android.content.Intent
 import android.os.Bundle

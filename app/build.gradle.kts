@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.keepnotes"
+    namespace = "com.example.NoteNinja"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.keepnotes"
+        applicationId = "com.example.NoteNinja"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
