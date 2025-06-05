@@ -60,7 +60,7 @@ Modify any existing note with one tap.
 
 <h2>📥 Download APK</h2>
 
-[![Download APK](https://img.shields.io/badge/Download-APK-brightgreen?style=for-the-badge&logo=android)](https://drive.google.com/file/d/1aifBh3OqgpFR8px6ToBmUotFZWzgl-8G/view?usp=sharing)
+[![Download APK Folder](https://img.shields.io/badge/Browse-APK_Folder-blue?style=for-the-badge&logo=google-drive)](https://drive.google.com/drive/folders/125T0TOMm_h2diRZ-ie9U18j0Z_sJhz3I?usp=drive_link)
 
 ---
 
